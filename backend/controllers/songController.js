@@ -29,12 +29,18 @@ exports.getAllSongs=[
   (request, response)=>{
     console.log("GET /v1/song");
     console.log(request.query);
+    connection.query('SELECT * FROM songs', (err, rows, fields)=>{
+      if(err) throw err;
+      return response.status(200).json(rows);
+    });
     //console.log(request.query.query);
     //console.log(request.query.user_age);
+    /*
     if(request.query.user_age < 18){
       return response.status(200).json({age_verification:false});
     }
     return response.status(200).json(songCollection)
+    */
   } 
 ];
 
@@ -42,9 +48,12 @@ exports.createSong=[
   (req, res)=>{
     console.log("POST /v1/song");
     console.log(req.body);
+    let song_name = req.body.name;
     // Guardar nueva canción
-    songCollection.push({id:req.body.id_song, name:req.body.song_name});
-    res.status(200).json({add_song:true, song_collection: songCollection});
+    //songCollection.push({id:req.body.id_song, name:req.body.song_name});
+    connection.query('INSERT INTO songs (name, id_artist) VALUES (?, ?)', [song_name, req.body.id_artist],(err, rows, fields)=>{
+      res.status(200).json(rows);
+    })
   }
 ];
 

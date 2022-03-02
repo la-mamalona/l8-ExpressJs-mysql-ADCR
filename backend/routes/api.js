@@ -4,6 +4,16 @@ const mySongController =require('../controllers/songController');
 const myArtistController = require('../controllers/artistController');
 const myAlbumController = require('../controllers/albumController');
 
+myRouter.get('/hola/amigo', (req, res)=>{
+  console.log("GET /hola/amigo");
+  res.status(200);  
+})
+myRouter.get('/hola/:id', (req, res)=>{
+  console.log("GET /hola/:id");
+  res.status(200);  
+})
+
+
 // Songs
 myRouter.get('/song/:idSong', mySongController.getSongDetail);
 myRouter.get('/song', mySongController.getAllSongs);
